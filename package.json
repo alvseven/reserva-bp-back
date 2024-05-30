@@ -11,6 +11,7 @@
 		"lint:format": "npx @biomejs/biome format --write ./src",
 		"lint:apply": "npx @biomejs/biome lint --apply ./src",
 		"lint:fix": "npx @biomejs/biome check --apply ./src",
+		"lint:fix-test": "npx @biomejs/biome check --apply tests",
 		"test:e2e": "vitest"
 	},
 	"keywords": [],
