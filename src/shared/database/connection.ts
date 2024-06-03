@@ -1,11 +1,13 @@
 import mongoose from "mongoose";
 
+import { parsedEnvs } from "../app.js";
+
 export async function connectDatabase() {
 	try {
 		const mongoUri =
-			process.env.NODE_ENV === "test"
-				? process.env.MONGO_TEST_URI
-				: process.env.MONGO_URI;
+			parsedEnvs.NODE_ENV === "test"
+				? parsedEnvs.MONGO_TEST_URI
+				: parsedEnvs.MONGO_URI;
 
 		console.log("Trying to connect to the database");
 

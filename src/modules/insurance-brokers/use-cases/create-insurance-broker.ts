@@ -3,9 +3,7 @@ import bcrypt from "bcryptjs";
 
 import type { CreateInsuranceBrokerInput } from "../dtos/create-insurance-broker/create-insurance-broker-request.js";
 
-import type { NonNullableFields } from "@/shared/helpers/types/non-nullable-fields.js";
 import type { InsuranceBrokersRepository } from "../contracts/insurance-brokers.js";
-import type { InsuranceBroker } from "../models/insurance-broker.js";
 
 export async function createInsuranceBrokerUseCase(
 	data: CreateInsuranceBrokerInput,
@@ -32,5 +30,5 @@ export async function createInsuranceBrokerUseCase(
 		password: hashedPassword,
 	});
 
-	return createdInsuranceBroker as Required<NonNullableFields<InsuranceBroker>>;
+	return createdInsuranceBroker;
 }

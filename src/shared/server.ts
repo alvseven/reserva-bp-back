@@ -1,7 +1,7 @@
-import { app } from "./app.js";
+import { app, parsedEnvs } from "./app.js";
 
-const port = Number(process.env.API_PORT) ?? 3333;
-const host = process.env.API_HOST ?? "localhost";
+const port = parsedEnvs.API_PORT
+const host = parsedEnvs.API_HOST
 
 app.listen({ port, host }, (err, address) => {
 	if (err) {

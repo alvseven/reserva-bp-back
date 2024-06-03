@@ -3,9 +3,7 @@ import bcrypt from "bcryptjs";
 
 import type { CreateCustomerInput } from "../dtos/create-customer/create-customer-request.dto.js";
 
-import type { NonNullableFields } from "@/shared/helpers/types/non-nullable-fields.js";
 import type { CustomersRepository } from "../contracts/customer.js";
-import type { Customer } from "../models/customer.js";
 
 export async function createCustomerUseCase(
 	data: CreateCustomerInput,
@@ -32,5 +30,5 @@ export async function createCustomerUseCase(
 		password: hashedPassword,
 	});
 
-	return createdCustomer as Required<NonNullableFields<Customer>>;
+	return createdCustomer;
 }
