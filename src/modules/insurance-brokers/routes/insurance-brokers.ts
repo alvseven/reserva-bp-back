@@ -8,12 +8,12 @@ import { deleteInsuranceBrokerRequestSchema } from "../dtos/delete-insurance-bro
 import { getInsuranceBrokerRequestSchema } from "../dtos/get-insurance-broker/get-insurance-broker-request.js";
 import { updateInsuranceBrokerRequestSchema } from "../dtos/update-insurance-broker/update-insurance-broker-request.js";
 
+import { loginRequestSchema } from "../dtos/login/login-request.dto.js";
 import { createInsuranceBrokerUseCase } from "../use-cases/create-insurance-broker.js";
 import { deleteInsuranceBrokerUseCase } from "../use-cases/delete-insurance-broker.js";
 import { getInsuranceBrokerUseCase } from "../use-cases/get-insurance-broker.js";
-import { updateInsuranceBrokerUseCase } from "../use-cases/update-insurance-broker.js";
 import { loginUseCase } from "../use-cases/login.js";
-import { loginRequestSchema } from "../dtos/login/login-request.dto.js";
+import { updateInsuranceBrokerUseCase } from "../use-cases/update-insurance-broker.js";
 
 export async function insuranceBrokersRoutes(fastify: FastifyInstance) {
 	const insuranceBrokersRepository = new MongooseInsuranceBrokersRepository();
@@ -43,9 +43,12 @@ export async function insuranceBrokersRoutes(fastify: FastifyInstance) {
 			},
 		},
 		async (req, reply) => {
-			const insuranceBrokerLogged = await loginUseCase(req.body,insuranceBrokersRepository);
+			const insuranceBrokerLogged = await loginUseCase(
+				req.body,
+				insuranceBrokersRepository,
+			);
 
-			return reply.send(insuranceBrokerLogged)
+			return reply.send(insuranceBrokerLogged);
 		},
 	);
 

@@ -4,25 +4,19 @@ import type { InsuranceBroker } from "../models/insurance-broker.js";
 type InsuranceBrokerId = InsuranceBroker["_id"] | string;
 
 export interface InsuranceBrokersRepository {
-	save(
-		data: StrictOmit<
-			InsuranceBroker,
-			"_id" | "createdAt" | "updatedAt" | "role"
-		>,
-	): Promise<InsuranceBroker>;
-	findById(id: InsuranceBrokerId): Promise<InsuranceBroker | undefined>;
-	findByEmail(
-		id: InsuranceBroker["email"],
-	): Promise<InsuranceBroker | undefined>;
-	findByUsername(
-		id: InsuranceBroker["username"],
-	): Promise<InsuranceBroker | undefined>;
-	updateById(
-		id: InsuranceBrokerId,
-		data: StrictOmit<
-			InsuranceBroker,
-			"_id" | "createdAt" | "updatedAt" | "role"
-		>,
-	): Promise<void>;
-	deleteById(id: InsuranceBrokerId): Promise<void>;
+  save(
+    data: Pick<InsuranceBroker, "name" | "email" | "password">
+  ): Promise<InsuranceBroker>;
+  findById(id: InsuranceBrokerId): Promise<InsuranceBroker | undefined>;
+  findByEmail(
+    id: InsuranceBroker["email"]
+  ): Promise<InsuranceBroker | undefined>;
+  updateById(
+    id: InsuranceBrokerId,
+    data: StrictOmit<
+      InsuranceBroker,
+      "_id" | "createdAt" | "updatedAt" | "role"
+    >
+  ): Promise<void>;
+  deleteById(id: InsuranceBrokerId): Promise<void>;
 }

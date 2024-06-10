@@ -13,11 +13,11 @@ describe("Create customer", () => {
 		);
 
 		const id = {
-			_id: expect.any(String)
-		}
+			_id: expect.any(String),
+		};
 
 		expect(createCustomerResponse).toMatchObject(createCustomerMock);
-		expect(createCustomerResponse).toMatchObject(expect.objectContaining(id))
+		expect(createCustomerResponse).toMatchObject(expect.objectContaining(id));
 	});
 
 	test.todo(

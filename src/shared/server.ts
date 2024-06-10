@@ -1,7 +1,7 @@
 import { app, parsedEnvs } from "./app.js";
 
-const port = parsedEnvs.API_PORT
-const host = parsedEnvs.API_HOST
+const port = parsedEnvs.API_PORT;
+const host = parsedEnvs.API_HOST;
 
 app.listen({ port, host }, (err, address) => {
 	if (err) {

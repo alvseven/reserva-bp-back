@@ -1,4 +1,4 @@
-import { parsedEnvs } from "@/shared/app.js";
+import { parsedEnvs } from "../src/shared/app.js";
 
 export async function api(
 	path: string,

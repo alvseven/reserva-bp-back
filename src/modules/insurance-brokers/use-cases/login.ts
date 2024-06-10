@@ -4,21 +4,26 @@ import jwt from "jsonwebtoken";
 
 import type { LoginInput } from "../dtos/login/login-request.dto.js";
 
-import type { InsuranceBrokersRepository } from "../contracts/insurance-brokers.js";
 import { parsedEnvs } from "@/shared/app.js";
+import type { InsuranceBrokersRepository } from "../contracts/insurance-brokers.js";
 
 export async function loginUseCase(
 	data: LoginInput,
 	insuranceBrokersRepository: InsuranceBrokersRepository,
 ) {
-	const insuranceBrokerFound = await insuranceBrokersRepository.findByEmail(data.email);
+	const insuranceBrokerFound = await insuranceBrokersRepository.findByEmail(
+		data.email,
+	);
 
 	if (!insuranceBrokerFound) {
 		throw httpErrors.notFound("Insurance broker not found");
 	}
 
 	// biome-ignore lint/style/noNonNullAssertion: mongo issue btw
-	const passwordMatch = bcrypt.compareSync(data.password, insuranceBrokerFound.password!);
+	const passwordMatch = bcrypt.compareSync(
+		data.password,
+		insuranceBrokerFound.password!,
+	);
 
 	if (!passwordMatch) {
 		throw httpErrors.forbidden("Incorrect email or password");

@@ -6,29 +6,24 @@ import type { CreateInsuranceBrokerInput } from "../dtos/create-insurance-broker
 import type { InsuranceBrokersRepository } from "../contracts/insurance-brokers.js";
 
 export async function createInsuranceBrokerUseCase(
-	data: CreateInsuranceBrokerInput,
-	insuranceBrokersRepository: InsuranceBrokersRepository,
+  data: CreateInsuranceBrokerInput,
+  insuranceBrokersRepository: InsuranceBrokersRepository
 ) {
-	const [insuranceBrokerFoundByEmail, insuranceBrokerFoundByUsername] =
-		await Promise.all([
-			insuranceBrokersRepository.findByEmail(data.email),
-			insuranceBrokersRepository.findByUsername(data.username),
-		]);
+  const insuranceBrokerFound = await insuranceBrokersRepository.findByEmail(
+    data.email
+  );
 
-	if (insuranceBrokerFoundByEmail) {
-		throw httpErrors.conflict("Email already registered");
-	}
-	if (insuranceBrokerFoundByUsername) {
-		throw httpErrors.conflict("Username already in use");
-	}
+  if (insuranceBrokerFound) {
+    throw httpErrors.conflict("Email already registered");
+  }
 
-	const saltRounds = 10;
-	const hashedPassword = bcrypt.hashSync(data.password, saltRounds);
+  const saltRounds = 12;
+  const hashedPassword = bcrypt.hashSync(data.password, saltRounds);
 
-	const createdInsuranceBroker = await insuranceBrokersRepository.save({
-		...data,
-		password: hashedPassword,
-	});
+  const createdInsuranceBroker = await insuranceBrokersRepository.save({
+    ...data,
+    password: hashedPassword,
+  });
 
-	return createdInsuranceBroker;
+  return createdInsuranceBroker;
 }

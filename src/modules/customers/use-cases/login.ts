@@ -4,9 +4,8 @@ import jwt from "jsonwebtoken";
 
 import type { LoginInput } from "../dtos/login/login-request.dto.js";
 
-import type { CustomersRepository } from "../contracts/customer.js";
 import { parsedEnvs } from "@/shared/app.js";
-
+import type { CustomersRepository } from "../contracts/customer.js";
 
 export async function loginUseCase(
 	data: LoginInput,
@@ -19,7 +18,10 @@ export async function loginUseCase(
 	}
 
 	// biome-ignore lint/style/noNonNullAssertion: mongo issue btw
-	const passwordMatch = bcrypt.compareSync(data.password, customerFound.password!);
+	const passwordMatch = bcrypt.compareSync(
+		data.password,
+		customerFound.password!,
+	);
 
 	if (!passwordMatch) {
 		throw httpErrors.forbidden("Incorrect email or password");

@@ -1,4 +1,4 @@
-import { describe,  test } from "vitest";
+import { describe, test } from "vitest";
 
 describe("Delete customer", () => {
 	test("It should delete a costumer", async () => {});

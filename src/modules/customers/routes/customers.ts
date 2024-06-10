@@ -45,7 +45,7 @@ export async function customersRoutes(fastify: FastifyInstance) {
 		async (req, reply) => {
 			const customerLogged = await loginUseCase(req.body, customersRepository);
 
-			return reply.send(customerLogged)
+			return reply.send(customerLogged);
 		},
 	);
 
