@@ -12,8 +12,11 @@ import { loginRequestSchema } from "../dtos/login/login-request.dto.js";
 import { createInsuranceBrokerUseCase } from "../use-cases/create-insurance-broker.js";
 import { deleteInsuranceBrokerUseCase } from "../use-cases/delete-insurance-broker.js";
 import { getInsuranceBrokerUseCase } from "../use-cases/get-insurance-broker.js";
+import { getInsuranceBrokersUseCase } from "../use-cases/get-insurance-brokers.js";
 import { loginUseCase } from "../use-cases/login.js";
 import { updateInsuranceBrokerUseCase } from "../use-cases/update-insurance-broker.js";
+
+import verifyAuth from "@/shared/middlewares/verify-auth.js";
 
 export async function insuranceBrokersRoutes(fastify: FastifyInstance) {
 	const insuranceBrokersRepository = new MongooseInsuranceBrokersRepository();
@@ -34,6 +37,16 @@ export async function insuranceBrokersRoutes(fastify: FastifyInstance) {
 			return reply.status(201).send(createdInsuranceBroker);
 		},
 	);
+
+	fastify
+		.withTypeProvider<ZodTypeProvider>()
+		.get("/", { preHandler: verifyAuth }, async (_req, reply) => {
+			const insuranceBrokers = await getInsuranceBrokersUseCase(
+				insuranceBrokersRepository,
+			);
+
+			return reply.status(200).send(insuranceBrokers);
+		});
 
 	fastify.withTypeProvider<ZodTypeProvider>().post(
 		"/login",

@@ -28,12 +28,18 @@ export class MongooseCustomersRepository implements CustomersRepository {
 		return customerFound?.toObject();
 	}
 
-	async findByUsername(
-		username: Parameters<CustomersRepository["findByUsername"]>[0],
+	async createScheduling(
+		data: Parameters<CustomersRepository["createScheduling"]>[0],
 	) {
-		const customerFound = await this.repository.findOne({ username });
+		const { customerId, ...schedulingData } = data;
+		const schedulingCreated = await this.repository.findByIdAndUpdate(
+			customerId,
+			{
+				$push: { schedulings: { ...schedulingData } },
+			},
+		);
 
-		return customerFound?.toObject();
+		return schedulingCreated;
 	}
 
 	async updateById(

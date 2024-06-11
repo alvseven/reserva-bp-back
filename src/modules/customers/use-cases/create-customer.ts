@@ -9,17 +9,10 @@ export async function createCustomerUseCase(
 	data: CreateCustomerInput,
 	customersRepository: CustomersRepository,
 ) {
-	const [customerFoundByEmail, customerFoundByUsername] = await Promise.all([
-		customersRepository.findByEmail(data.email),
-		customersRepository.findByUsername(data.username),
-	]);
+	const customerFound = await customersRepository.findByEmail(data.email);
 
-	if (customerFoundByEmail) {
-		throw httpErrors.conflict("Email already registered");
-	}
-
-	if (customerFoundByUsername) {
-		throw httpErrors.conflict("Username already in use");
+	if (customerFound) {
+		throw httpErrors.conflict("Email já cadastrado");
 	}
 
 	const saltRounds = 12;

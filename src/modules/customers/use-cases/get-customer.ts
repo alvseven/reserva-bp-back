@@ -10,7 +10,7 @@ export async function getCustomerUseCase(
 	const customerFound = await customersRepository.findById(id);
 
 	if (!customerFound) {
-		throw httpErrors.notFound("Customer not found");
+		throw httpErrors.notFound("Cliente não encontrado");
 	}
 
 	return customerFound;

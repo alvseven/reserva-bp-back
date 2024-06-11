@@ -11,7 +11,7 @@ export async function getInsuranceBrokerUseCase(
 	const insuranceBrokerFound = await insuranceBrokersRepository.findById(id);
 
 	if (!insuranceBrokerFound) {
-		throw httpErrors.notFound("Insurance broker not found");
+		throw httpErrors.notFound("Corretor de seguros não encontrado");
 	}
 
 	return insuranceBrokerFound;

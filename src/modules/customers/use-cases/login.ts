@@ -2,10 +2,9 @@ import { httpErrors } from "@fastify/sensible";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-import type { LoginInput } from "../dtos/login/login-request.dto.js";
-
 import { parsedEnvs } from "@/shared/app.js";
 import type { CustomersRepository } from "../contracts/customer.js";
+import type { LoginInput } from "../dtos/login/login-request.dto.js";
 
 export async function loginUseCase(
 	data: LoginInput,
@@ -14,17 +13,16 @@ export async function loginUseCase(
 	const customerFound = await customersRepository.findByEmail(data.email);
 
 	if (!customerFound) {
-		throw httpErrors.notFound("Customer not found");
+		throw httpErrors.forbidden("Email ou/e senha incorretos");
 	}
 
-	// biome-ignore lint/style/noNonNullAssertion: mongo issue btw
 	const passwordMatch = bcrypt.compareSync(
 		data.password,
-		customerFound.password!,
+		customerFound.password,
 	);
 
 	if (!passwordMatch) {
-		throw httpErrors.forbidden("Incorrect email or password");
+		throw httpErrors.forbidden("Email ou/e senha incorretos");
 	}
 
 	const token = jwt.sign(

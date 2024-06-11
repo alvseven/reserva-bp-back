@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const updateInsuranceBrokerRequestSchema = z.object({
 	id: z.string(),
-	username: z.string().min(3).optional(),
+	name: z.string().min(3).optional(),
 	password: z
 		.string()
 		.min(8, {

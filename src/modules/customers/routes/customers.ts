@@ -1,15 +1,19 @@
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 
+import { MongooseInsuranceBrokersRepository } from "@/modules/insurance-brokers/repositories/insurance-brokers.js";
 import { MongooseCustomersRepository } from "../repositories/customers.js";
 
 import { createCustomerRequestSchema } from "../dtos/create-customer/create-customer-request.dto.js";
+import { createSchedulingRequestSchema } from "../dtos/create-scheduling/create-scheduling-request.dto.js";
 import { deleteCustomerRequestSchema } from "../dtos/delete-customer/delete-customer-request.dto.js";
 import { getCustomerRequestSchema } from "../dtos/get-customer/get-customer-request.dto.js";
+import { loginRequestSchema } from "../dtos/login/login-request.dto.js";
+import { loginResponseSchema } from "../dtos/login/login-response.dto.js";
 import { updateCustomerRequestSchema } from "../dtos/update-customer/update-customer-request.dto.js";
 
-import { loginRequestSchema } from "../dtos/login/login-request.dto.js";
 import { createCustomerUseCase } from "../use-cases/create-customer.js";
+import { createSchedulingUseCase } from "../use-cases/create-scheduling.js";
 import { deleteCustomerUseCase } from "../use-cases/delete-customer.js";
 import { getCustomerUseCase } from "../use-cases/get-customer.js";
 import { loginUseCase } from "../use-cases/login.js";
@@ -17,6 +21,7 @@ import { updateCustomerUseCase } from "../use-cases/update-customer.js";
 
 export async function customersRoutes(fastify: FastifyInstance) {
 	const customersRepository = new MongooseCustomersRepository();
+	const insuranceBrokersRepository = new MongooseInsuranceBrokersRepository();
 
 	fastify.withTypeProvider<ZodTypeProvider>().post(
 		"/",
@@ -40,12 +45,32 @@ export async function customersRoutes(fastify: FastifyInstance) {
 		{
 			schema: {
 				body: loginRequestSchema,
+				response: {
+					"200": loginResponseSchema,
+				},
 			},
 		},
 		async (req, reply) => {
 			const customerLogged = await loginUseCase(req.body, customersRepository);
 
 			return reply.send(customerLogged);
+		},
+	);
+
+	fastify.withTypeProvider<ZodTypeProvider>().post(
+		"/me/schedulings",
+		{
+			schema: {
+				body: createSchedulingRequestSchema,
+			},
+		},
+		async (req, reply) => {
+			const createdScheduling = await createSchedulingUseCase(req.body, {
+				customersRepository,
+				insuranceBrokersRepository,
+			});
+
+			return reply.status(201).send(createdScheduling);
 		},
 	);
 
