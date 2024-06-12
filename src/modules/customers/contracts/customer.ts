@@ -6,7 +6,7 @@ type CustomerId = Customer["_id"] | string;
 export interface CustomersRepository {
 	save(data: Pick<Customer, "name" | "email" | "password">): Promise<Customer>;
 	findById(id: CustomerId): Promise<Customer | undefined>;
-	findByEmail(id: Customer["email"]): Promise<Customer | undefined>;
+	findByEmail(email: Customer["email"]): Promise<Customer | undefined>;
 	createScheduling(data: {
 		customerId: string;
 		insuranceBrokerName: string;
@@ -17,7 +17,10 @@ export interface CustomersRepository {
 	}): Promise<unknown>;
 	updateById(
 		id: CustomerId,
-		data: StrictOmit<Customer, "_id" | "createdAt" | "updatedAt" | "role">,
+		data: StrictOmit<
+			Customer,
+			"_id" | "createdAt" | "updatedAt" | "role" | "schedulings"
+		>,
 	): Promise<void>;
 	deleteById(id: CustomerId): Promise<void>;
 }

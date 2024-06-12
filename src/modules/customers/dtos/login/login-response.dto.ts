@@ -1,24 +1,9 @@
-import { Types } from "mongoose";
 import { z } from "zod";
 
-const schedulingSchema = z.object({
-	_id: z
-		.custom<Types.ObjectId>((value) => value instanceof Types.ObjectId)
-		.optional(),
-	insuranceBrokerName: z.string(),
-	date: z.coerce.date(),
-	duration: z.string(),
-	status: z.string(),
-	createdAt: z.coerce.date(),
-});
+import { defaultUserSchema } from "../default-user-dto.js";
 
-export const loginResponseSchema = z.object({
-	_id: z.custom<Types.ObjectId>((value) => value instanceof Types.ObjectId),
-	name: z.string(),
-	email: z.string().email(),
-	role: z.string(),
-	createdAt: z.coerce.date(),
-	updatedAt: z.coerce.date(),
-	schedulings: z.array(schedulingSchema),
-	token: z.string(),
-});
+export const loginResponseSchema = z
+	.object({
+		token: z.string(),
+	})
+	.and(defaultUserSchema);

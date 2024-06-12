@@ -20,7 +20,7 @@ export function verifyAuth(
 	try {
 		const decoded = jwt.verify(token, parsedEnvs.JWT_SECRET);
 		req.user = {
-			id: typeof decoded === "object" && decoded.id,
+			_id: typeof decoded === "object" && decoded.id,
 		};
 
 		done();

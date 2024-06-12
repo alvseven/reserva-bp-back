@@ -8,7 +8,7 @@ const hourRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
 
 const durationSchema = z
 	.string()
-	.regex(/^\d{2}:\d{2}$/, { message: "A duração deve estar no formato HH:mm" })
+	.regex(/^\d{2}:\d{2}$/)
 	.refine(
 		(value) => {
 			const [hours, minutes] = value.split(":").map(Number);
@@ -28,14 +28,9 @@ const durationSchema = z
 export const createSchedulingRequestSchema = z
 	.object({
 		customerId: z.string(),
-		insuranceBrokerId: z
-			.string()
-			.min(1, "O campo corretor de seguros é obrigatório"),
-		date: z.coerce.date({ invalid_type_error: "Data inválida" }),
-		time: z
-			.string()
-			.min(1, "O campo hora é obrigatório")
-			.regex(hourRegex, "A hora deve estar no formato HH:mm e ser válida"),
+		insuranceBrokerId: z.string().min(1).min(1),
+		date: z.coerce.date(),
+		time: z.string().min(1).regex(hourRegex),
 		duration: durationSchema,
 	})
 	.superRefine(({ date, time }, ctx) => {

@@ -1,7 +1,9 @@
-import { z } from "zod";
+import type { infer as ZodInfer } from "zod";
 
-export const deleteCustomerRequestSchema = z.object({
-	id: z.string(),
+import { defaultUserSchema } from "../default-user-dto.js";
+
+export const deleteCustomerRequestSchema = defaultUserSchema.pick({
+	_id: true,
 });
 
-export type DeleteCustomerInput = z.infer<typeof deleteCustomerRequestSchema>;
+export type DeleteCustomerInput = ZodInfer<typeof deleteCustomerRequestSchema>;
