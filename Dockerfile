@@ -26,4 +26,4 @@ RUN apk update --no-cache \
 
 COPY entrypoint.sh /usr/local/bin/
 
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/shared/server.cjs"]
