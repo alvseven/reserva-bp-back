@@ -1,4 +1,3 @@
-# Estágio 1: Construção
 FROM node:20.11.1-alpine AS builder
 
 WORKDIR /home/node/app
@@ -14,7 +13,7 @@ WORKDIR /home/node/app
 
 COPY --from=builder /home/node/app/package*.json ./
 COPY --from=builder /home/node/app/node_modules ./node_modules
-COPY --from=builder /home/node/app/build ./build
+COPY --from=builder /home/node/app/dist ./dist
 
 ENV DOCKERIZE_VERSION v0.7.0
 
@@ -25,4 +24,4 @@ RUN apk update --no-cache \
 
 COPY entrypoint.sh /usr/local/bin/
 
-CMD ["node", "build/index.js"]
+CMD ["node", "dist/index.js"]

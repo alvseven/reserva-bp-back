@@ -16,5 +16,5 @@ app.setSerializerCompiler(serializerCompiler);
 
 export const parsedEnvs = parseEnvs();
 
-await connectDatabase();
+connectDatabase();
 registerRoutes();
