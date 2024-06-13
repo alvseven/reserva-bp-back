@@ -1,9 +1,9 @@
-import type { DeleteCustomerInput } from "../dtos/delete-customer/delete-customer-request.dto.js";
+import type { Types } from "mongoose";
 
 import type { CustomersRepository } from "../contracts/customer.js";
 
 export async function deleteCustomerUseCase(
-	id: DeleteCustomerInput["_id"],
+	id: Types.ObjectId | string,
 	customersRepository: CustomersRepository,
 ) {
 	await customersRepository.deleteById(id);

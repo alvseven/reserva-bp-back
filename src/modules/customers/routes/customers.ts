@@ -7,7 +7,6 @@ import { MongooseCustomersRepository } from "../repositories/customers.js";
 import { createCustomerRequestSchema } from "../dtos/create-customer/create-customer-request.dto.js";
 import { createCustomerResponseSchema } from "../dtos/create-customer/create-customer-response.dto.js";
 import { createSchedulingRequestSchema } from "../dtos/create-scheduling/create-scheduling-request.dto.js";
-import { deleteCustomerRequestSchema } from "../dtos/delete-customer/delete-customer-request.dto.js";
 import { loginRequestSchema } from "../dtos/login/login-request.dto.js";
 import { loginResponseSchema } from "../dtos/login/login-response.dto.js";
 import {
@@ -132,9 +131,6 @@ export async function customersRoutes(fastify: FastifyInstance) {
 		"/me",
 		{
 			preHandler: verifyAuth,
-			schema: {
-				params: deleteCustomerRequestSchema,
-			},
 		},
 		async (req, reply) => {
 			await deleteCustomerUseCase(req.user._id, customersRepository);

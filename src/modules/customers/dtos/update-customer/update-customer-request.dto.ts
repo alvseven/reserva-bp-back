@@ -21,7 +21,6 @@ export const updateCustomerRequestSchema = z
 	})
 	.and(
 		defaultUserSchema.pick({
-			_id: true,
 			name: true,
 			email: true,
 		}),
