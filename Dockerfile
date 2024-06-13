@@ -7,8 +7,6 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
-
 FROM node:20.11.1-alpine
 
 WORKDIR /home/node/app
